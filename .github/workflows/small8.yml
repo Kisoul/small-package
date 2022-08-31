@@ -47,14 +47,14 @@ jobs:
 
     - name: Upload small-package
       env: 
-        ACCESS_TOKEN: ${{ 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 }}
+        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
       run: |
         [ -e $GITHUB_WORKSPACE/LICENSE ] && cp $GITHUB_WORKSPACE/LICENSE $GITHUB_WORKSPACE/${{matrix.target}}
         [ -e $GITHUB_WORKSPACE/README.md ] && cp $GITHUB_WORKSPACE/README.md $GITHUB_WORKSPACE/${{matrix.target}}
         cd $GITHUB_WORKSPACE/${{matrix.target}}
         git add .
         git commit -am "update $(date +%Y-%m-%d" "%H:%M:%S)"
-        git push --quiet "https://${{ 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 }}@github.com/kenzok8/small-package.git" HEAD:${{matrix.target}}
+        git push --quiet "https://${{ secrets.ACCESS_TOKEN }}@github.com/kenzok8/small-package.git" HEAD:${{matrix.target}}
                
     - name: Delete workflow runs
       uses: Mattraks/delete-workflow-runs@v2.0.2
