@@ -6,10 +6,11 @@ Focus on making the most of Xray (HTTP/HTTPS/Socks/TProxy inbounds, multiple pro
 
 ## Warnings
 
-* Support for nftables / firewall4 is **experimental** and
-    * only works with OpenWrt 22.03 versions or master branch with firewall4 as the only firewall implementation. Note that there is a possible bug in nftables 1.0.3 / 1.0.4 which breaks tproxy, so if you use master branch, make sure your source code is newer than [36bec544d73dbed46f06875fdfa570e89a40e553](https://github.com/openwrt/openwrt/commit/36bec544d73dbed46f06875fdfa570e89a40e553)
-    * may **NOT** be as stable as the old implementation using iptables and fw3 due to the lack of hooking facilities in fw4. However it should be good enough for daily use so if you encounter problems please report.
-    * currently only tested with a proper buildroot environment. Building ipk with OpenWrt SDK is **NOT** tested and is **NOT** likely to work right now. If you are building ipks yourself, use the proper version of buildroot toolchain which matches the firewall implementation (fw3 or fw4) you are using.
+* Since OpenWrt 22.03 release, the recommended firewall implementation for this project is now **firewall4** with some caveats
+    * currently this project still works on OpenWrt 19.07 / 21.02 versions. There's a warning about missing `kmod-nft-tproxy` when using these versions, just ignore it. This problem will be fixed later.
+    * support for versions mentioned above will soon be **deprecated**, which means that most new features won't be implemented for these old versions. Check changelog for details about future changes and availability of various new features.
+    * there is a possible bug in nftables 1.0.3 / 1.0.4 which breaks tproxy, so if you use master branch, make sure your source code is newer than [36bec544d73dbed46f06875fdfa570e89a40e553](https://github.com/openwrt/openwrt/commit/36bec544d73dbed46f06875fdfa570e89a40e553)
+    * currently building ipk with OpenWrt SDK is **NOT** tested and is **NOT** likely to work right now. If you are building ipks yourself, use the proper version of buildroot toolchain which matches the firewall implementation (fw3 or fw4) you are using.
 * There will be a series of **BREAKING CHANGES** in the following months due to some major refactor of DNS module. Please read changelog carefully to know about breaking changes and always backup your configuration files before updating.
 * If you see `WARNING: at least one of asset files (geoip.dat, geosite.dat) is not found under /usr/share/xray. Xray may not work properly` and don't know what to do:
     * try `opkg update && opkg install xray-geodata` (at least OpenWrt 21.02 releases)
@@ -22,6 +23,10 @@ Focus on making the most of Xray (HTTP/HTTPS/Socks/TProxy inbounds, multiple pro
     If this is your case, use Passwall or similar projects instead (you could find links in [XTLS/Xray-core](https://github.com/XTLS/Xray-core/)).
 * For OpenWrt 19.07 releases, you need to prepare your own xray-core package (just download from [Releases · yichya/openwrt-xray](https://github.com/yichya/openwrt-xray/releases) and install that) because building Xray from source requires Go 1.17 which is currently only available in at least OpenWrt 21.02 releases.
 * This project may change its code structure, configuration files format, user interface or dependencies quite frequently since it is still in its very early stage. 
+
+## Changelog 2023
+
+* 2023-01-01 feat: optional restart of dnsmasq on interface change
 
 ## Changelog 2022
 
@@ -36,13 +41,21 @@ Focus on making the most of Xray (HTTP/HTTPS/Socks/TProxy inbounds, multiple pro
 * 2022-03-25 feat: remove web and add metrics configurations (recommended to use with [metrics support](https://github.com/XTLS/Xray-core/pull/1000))
 * 2022-04-24 feat: metrics is now out of optional features; add basic ubus wrapper for xray apis
 * 2022-05-13 feat: shadowsocks-2022 protocols support
-* 2022-06-04 feat: nftables support (experimental)
+* 2022-06-04 `[OpenWrt 22.03 or above only]` feat: nftables support (experimental)
 * 2022-06-05 feat: shadowsocks-2022 UDP over TCP support
 * 2022-06-14 feat: multiple geoip direct code
-* 2022-06-19 feat: skip proxy for specific uids / gids (nftables support only)
+* 2022-06-19 `[OpenWrt 22.03 or above only]` feat: skip proxy for specific uids / gids
 * 2022-08-07 fix: avoid duplicated items in generated nftables ruleset
-* 2022-08-08 fix: make sure forwarded IPs are always forwarded to Xray even for reserved addresses. Xray may not forward those requests so that manner may be changed later.
-* 2022-08-13 fix: apply 2022-08-08 fix to iptables as well
+* 2022-08-13 fix: make sure forwarded IPs are always forwarded to Xray even for reserved addresses. Xray may not forward those requests so that manner may be changed later.
+* 2022-09-01 feat: specify outbound for manual transparent proxy
+* 2022-09-26 feat: show process running status
+* 2022-10-02 feat: detect xray binary path; allow changing default HTTPS server port
+* 2022-10-03 feat: switch to disable TCP / UDP transparent proxy
+* 2022-10-05 feat: dialer proxy
+* 2022-10-06 `[OpenWrt 22.03 or above only]` feat: use goto instead of jump in nftables rules
+* 2022-10-29 `[OpenWrt 22.03 or above only]` feat: rewrite gen_config in ucode
+* 2022-11-01 feat: support xtls-rprx-vision
+* 2022-12-13 fix: force restart dnsmasq on interface change
 
 ## Changelog 2021
 

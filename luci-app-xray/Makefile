@@ -1,7 +1,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=luci-app-xray
-PKG_VERSION:=1.15.4
+PKG_VERSION:=1.24.0
 PKG_RELEASE:=1
 
 PKG_LICENSE:=MPLv2
@@ -39,6 +39,10 @@ config PACKAGE_XRAY_RLIMIT_NOFILE_LARGE
 	bool "Increase Max Open Files Limit (recommended)"
 	default y
 
+config PACKAGE_XRAY_RESTART_DNSMASQ_ON_IFACE_CHANGE
+	bool "Restart dnsmasq on interface change (select this if using dnsmasq v2.87)"
+	default n
+
 choice
 	prompt "Limit memory use by setting rlimit_data (experimental)"
 	default PACKAGE_XRAY_RLIMIT_DATA_UNLIMITED
@@ -47,7 +51,7 @@ choice
 	config PACKAGE_XRAY_RLIMIT_DATA_SMALL
 		bool "Small limit (about 50MB)"
 	config PACKAGE_XRAY_RLIMIT_DATA_LARGE
-		bool "Large limit (about 210MB)"
+		bool "Large limit (about 321MB)"
 endchoice
 
 endmenu
@@ -101,6 +105,11 @@ endif
 	$(INSTALL_DIR) $(1)/usr/share/rpcd/acl.d
 	$(INSTALL_DATA) ./root/usr/share/rpcd/acl.d/luci-app-xray.json $(1)/usr/share/rpcd/acl.d/luci-app-xray.json
 	$(INSTALL_DIR) $(1)/usr/share/xray
+	$(LN) /var/run/xray.pid $(1)/usr/share/xray/xray.pid
+	$(LN) /usr/bin/xray $(1)/usr/share/xray/xray
+ifdef CONFIG_PACKAGE_XRAY_RESTART_DNSMASQ_ON_IFACE_CHANGE
+	$(INSTALL_DATA) ./root/usr/share/xray/restart_dnsmasq_on_iface_change $(1)/usr/share/xray/restart_dnsmasq_on_iface_change
+endif
 ifdef CONFIG_PACKAGE_XRAY_INFINITE_RETRY_ON_STARTUP
 	$(INSTALL_DATA) ./root/usr/share/xray/infinite_retry $(1)/usr/share/xray/infinite_retry
 endif
@@ -119,16 +128,17 @@ ifdef CONFIG_PACKAGE_firewall
 	$(INSTALL_BIN) ./root/usr/share/xray/gen_ipset_rules_extra_normal.lua $(1)/usr/share/xray/gen_ipset_rules_extra.lua
 	$(INSTALL_BIN) ./root/usr/share/xray/firewall_include.lua $(1)/usr/share/xray/firewall_include.lua
 	$(INSTALL_DATA) ./root/usr/share/xray/init.fw3 $(1)/usr/share/xray/init.firewall
+	$(INSTALL_BIN) ./root/usr/share/xray/gen_config.lua $(1)/usr/share/xray/gen_config.lua
 endif
 ifdef CONFIG_PACKAGE_firewall4
 	$(INSTALL_BIN) ./root/etc/hotplug.d/iface/01-transparent-proxy-ipset.fw4 $(1)/etc/hotplug.d/iface/01-transparent-proxy-ipset
 	$(INSTALL_DATA) ./root/usr/share/xray/include.nft $(1)/usr/share/xray/include.nft
 	$(INSTALL_DIR) $(1)/etc/nftables.d
 	$(LN) /usr/share/xray/include.nft $(1)/etc/nftables.d/99-xray.nft
-	$(INSTALL_BIN) ./root/usr/share/xray/firewall_include.uc $(1)/usr/share/xray/firewall_include.uc
+	$(INSTALL_BIN) ./root/usr/share/xray/firewall_include.ut $(1)/usr/share/xray/firewall_include.ut
 	$(INSTALL_DATA) ./root/usr/share/xray/init.fw4 $(1)/usr/share/xray/init.firewall
+	$(INSTALL_BIN) ./root/usr/share/xray/gen_config.uc $(1)/usr/share/xray/gen_config.uc
 endif
-	$(INSTALL_BIN) ./root/usr/share/xray/gen_config.lua $(1)/usr/share/xray/gen_config.lua
 	$(INSTALL_DIR) $(1)/usr/libexec/rpcd
 	$(INSTALL_BIN) ./root/usr/libexec/rpcd/xray $(1)/usr/libexec/rpcd/xray
 endef

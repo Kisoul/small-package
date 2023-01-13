@@ -13,6 +13,9 @@ ipv6_dns=$(uci -q get openclash.config.ipv6_dns || echo 0)
 tolerance=$(uci -q get openclash.config.tolerance || echo 0)
 custom_fallback_filter=$(uci -q get openclash.config.custom_fallback_filter || echo 0)
 enable_meta_core=$(uci -q get openclash.config.enable_meta_core || echo 0)
+china_ip_route=$(uci -q get openclash.config.china_ip_route || echo 0)
+
+lan_block_google_dns=$(uci -q get openclash.config.lan_block_google_dns_ips || uci -q get openclash.config.lan_block_google_dns_macs || echo 0)
 
 if [ -n "$(ruby_read "$5" "['tun']")" ]; then
    uci -q set openclash.config.config_reload=0
@@ -65,6 +68,13 @@ fi
 
 uci commit openclash
 
+if [ "$1" = "fake-ip" ] && [ "$china_ip_route" = "1" ]; then
+   for i in `awk '!/^$/&&!/^#/&&!/(^([1-9]|1[0-9]|1[1-9]{2}|2[0-4][0-9]|25[0-5])\.)(([0-9]{1,2}|1[1-9]{2}|2[0-4][0-9]|25[0-5])\.){2}([1-9]|[1-9][0-9]|1[0-9]{2}|2[0-5][0-9]|25[0-4])((\/[0-9][0-9])?)$/{printf("%s\n",$0)}' /etc/openclash/custom/openclash_custom_chnroute_pass.list`
+   do
+      echo "$i" >> /tmp/openclash_fake_filter_include
+   done 2>/dev/null
+fi
+
 #获取认证信息
 yml_auth_get()
 {
@@ -81,6 +91,7 @@ yml_auth_get()
    if [ -z "$username" ] || [ -z "$password" ]; then
       return
    else
+      LOG_OUT "Tip: You have seted the authentication of SOCKS5/HTTP(S) proxy with【$username:$password】"
       echo "  - $username:$password" >>/tmp/yaml_openclash_auth
    fi
 }
@@ -255,9 +266,9 @@ yml_dns_get()
       interface=""
    fi
 
-   if [ "$http3" = "1" ] && [ "$enable_meta_core" = "1" ] && [ "$interface" != "" ]; then
+   if [ "$http3" = "1" ] && [ "$enable_meta_core" = "1" ] && [ -n "$specific_group" ]; then
       http3="&h3=true"
-   elif [ "$http3" = "1" ] && [ "$enable_meta_core" = "1" ] && [ "$interface" = "" ]; then
+   elif [ "$http3" = "1" ] && [ "$enable_meta_core" = "1" ] && [ -z "$specific_group" ]; then
       http3="#h3=true"
    elif [ "$http3" = "1" ] && [ "$enable_meta_core" != "1" ]; then
       LOG_OUT "Warning: Only Meta Core Support Force HTTP/3 to connect, Skip Setting【$dns_type$dns_address】"
@@ -404,6 +415,16 @@ Thread.new{
       Value['sniffer']=Value_sniffer['sniffer'];
       Value_sniffer={'sniffing'=>['tls','http']};
       Value['sniffer'].merge!(Value_sniffer);
+      if '$1' == 'redir-host' then
+         Value['sniffer']['ForceDnsMapping']=true;
+      else
+         Value['sniffer']['ForceDnsMapping']=false;
+      end;
+      if ${29} == 1 then
+         Value['sniffer']['ParsePureIp']=true;
+      else
+         Value['sniffer']['ParsePureIp']=false;
+      end;
       if File::exist?('/etc/openclash/custom/openclash_force_sniffing_domain.yaml') and ${24} == 1 then
          Value_7 = YAML.load_file('/etc/openclash/custom/openclash_force_sniffing_domain.yaml');
          if Value_7 != false and not Value_7['force-domain'].to_a.empty? then
@@ -448,6 +469,7 @@ Thread.new{
       Value['tun']['stack']='$stack_type';
       if ${20} == 1 then
          Value['tun']['device']='utun';
+         Value['tun']['mtu']=65535;
       end;
       Value_2={'dns-hijack'=>['tcp://any:53']};
       Value['tun']['auto-route']=false;
@@ -631,6 +653,17 @@ Thread.new{
             end;
          end;
       end;
+      if File::exist?('/tmp/openclash_fake_filter_include') then
+         Value_4 = IO.readlines('/tmp/openclash_fake_filter_include');
+         if not Value_4.empty? then
+            Value_4 = Value_4.map!{|x| x.gsub(/#.*$/,'').strip} - ['', nil];
+            if Value['dns'].has_key?('fake-ip-filter') and not Value['dns']['fake-ip-filter'].to_a.empty? then
+               Value['dns']['fake-ip-filter'] = Value['dns']['fake-ip-filter'] | Value_4;
+            else
+               Value['dns']['fake-ip-filter'] = Value_4;
+            end;
+         end;
+      end;
       if ${18} == 1 then
          if Value['dns'].has_key?('fake-ip-filter') and not Value['dns']['fake-ip-filter'].to_a.empty? then
             Value['dns']['fake-ip-filter'].insert(-1,'+.nflxvideo.net');
@@ -640,11 +673,13 @@ Thread.new{
             Value['dns'].merge!({'fake-ip-filter'=>['+.nflxvideo.net', '+.media.dssott.com']});
          end;
       end;
-      if Value['dns'].has_key?('fake-ip-filter') and not Value['dns']['fake-ip-filter'].to_a.empty? then
-         Value['dns']['fake-ip-filter'].insert(-1,'+.dns.google');
-         Value['dns']['fake-ip-filter']=Value['dns']['fake-ip-filter'].uniq;
-      else
-         Value['dns'].merge!({'fake-ip-filter'=>['+.dns.google']});
+      if '$lan_block_google_dns' != '0' then
+         if Value['dns'].has_key?('fake-ip-filter') and not Value['dns']['fake-ip-filter'].to_a.empty? then
+            Value['dns']['fake-ip-filter'].insert(-1,'+.dns.google');
+            Value['dns']['fake-ip-filter']=Value['dns']['fake-ip-filter'].uniq;
+         else
+            Value['dns'].merge!({'fake-ip-filter'=>['+.dns.google']});
+         end;
       end;
    elsif ${19} == 1 then
       if Value['dns'].has_key?('fake-ip-filter') and not Value['dns']['fake-ip-filter'].to_a.empty? then

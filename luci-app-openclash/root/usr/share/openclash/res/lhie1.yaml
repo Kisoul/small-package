@@ -16,6 +16,7 @@ rules:
 - RULE-SET,ABC,Global TV
 - RULE-SET,Abema TV,Global TV
 - RULE-SET,Amazon,Global TV
+- RULE-SET,Apple Music,Global TV
 - RULE-SET,Apple News,Global TV
 - RULE-SET,Apple TV,Global TV
 - RULE-SET,Bahamut,Global TV
@@ -36,6 +37,7 @@ rules:
 - RULE-SET,KKTV,Global TV
 - RULE-SET,Line TV,Global TV
 - RULE-SET,myTV SUPER,Global TV
+- RULE-SET,Niconico,Global TV
 - RULE-SET,Pandora,Global TV
 - RULE-SET,PBS,Global TV
 - RULE-SET,Pornhub,Global TV
@@ -43,7 +45,7 @@ rules:
 - RULE-SET,ViuTV,Global TV
 - RULE-SET,Telegram,Telegram
 - RULE-SET,Crypto,Crypto
-- RULE-SET,Douyin,Douyin
+- RULE-SET,Discord,Discord
 - RULE-SET,Steam,Steam
 - RULE-SET,Speedtest,Speedtest
 - RULE-SET,PayPal,PayPal
@@ -77,6 +79,7 @@ script:
             "ABC": "Global TV",
             "Abema TV": "Global TV",
             "Amazon": "Global TV",
+            "Apple Music": "Global TV",
             "Apple News": "Global TV",
             "Apple TV": "Global TV",
             "Bahamut": "Global TV",
@@ -97,6 +100,7 @@ script:
             "KKTV": "Global TV",
             "Line TV": "Global TV",
             "myTV SUPER": "Global TV",
+            "Niconico": "Global TV",
             "Pandora": "Global TV",
             "PBS": "Global TV",
             "Pornhub": "Global TV",
@@ -104,7 +108,7 @@ script:
             "ViuTV": "Global TV",
             "Telegram": "Telegram",
             "Crypto": "Crypto",
-            "Douyin": "Douyin",
+            "Discord": "Discord",
             "Steam": "Steam",
             "Speedtest": "Speedtest",
             "PayPal": "PayPal",
@@ -120,12 +124,11 @@ script:
 
         port = int(metadata["dst_port"])
 
-        if metadata["network"] == "UDP":
-            if port == 443:
-                ctx.log('[Script] matched QUIC traffic use reject')
-                return "REJECT"
+        if metadata["network"] == "UDP" and port == 443:
+            ctx.log('[Script] matched QUIC traffic use reject')
+            return "REJECT"
 
-        port_list = [21, 22, 23, 53, 80, 123, 143, 194, 443, 465, 587, 853, 993, 995, 998, 2052, 2053, 2082, 2083, 2086, 2095, 2096, 5222, 5228, 5229, 5230, 8080, 8443, 8880, 8888, 8889]
+        port_list = [21, 22, 23, 53, 80, 123, 143, 194, 443, 465, 587, 853, 993, 995, 998, 2052, 2053, 2082, 2083, 2086, 2095, 2096, 3389, 5222, 5228, 5229, 5230, 8080, 8443, 8880, 8888, 8889]
         if port not in port_list:
             ctx.log('[Script] not common port use direct')
             return "DIRECT"
@@ -137,13 +140,11 @@ script:
             if ctx.rule_providers[ruleset].match(metadata):
                 return ruleset_action[ruleset]
 
-        if metadata["dst_ip"] == "":
-            return "DIRECT"
-
-        code = ctx.geoip(metadata["dst_ip"])
-        if code == "CN":
-            ctx.log('[Script] Geoip CN')
-            return "Domestic"
+        if metadata["dst_ip"] != "":
+            code = ctx.geoip(metadata["dst_ip"])
+            if code == "CN":
+                ctx.log('[Script] Geoip CN')
+                return "Domestic"
 
         ctx.log('[Script] FINAL')
         return "Others"
@@ -243,6 +244,12 @@ rule-providers:
     behavior: classical
     url: https://fastly.jsdelivr.net/gh/dler-io/Rules@main/Clash/Provider/Media/Amazon.yaml
     path: "./Rules/Media/Amazon"
+    interval: 86400
+  Apple Music:
+    type: http
+    behavior: classical
+    url: https://fastly.jsdelivr.net/gh/dler-io/Rules@main/Clash/Provider/Media/Apple%20Music.yaml
+    path: "./Rules/Media/Apple_Music"
     interval: 86400
   Apple News:
     type: http
@@ -370,6 +377,12 @@ rule-providers:
     url: https://fastly.jsdelivr.net/gh/dler-io/Rules@main/Clash/Provider/Media/myTV%20SUPER.yaml
     path: "./Rules/Media/myTV_SUPER"
     interval: 86400
+  Niconico:
+    type: http
+    behavior: classical
+    url: https://fastly.jsdelivr.net/gh/dler-io/Rules@main/Clash/Provider/Media/Niconico.yaml
+    path: "./Rules/Media/Niconico"
+    interval: 86400
   Pandora:
     type: http
     behavior: classical
@@ -412,11 +425,11 @@ rule-providers:
     url: https://fastly.jsdelivr.net/gh/dler-io/Rules@main/Clash/Provider/Crypto.yaml
     path: "./Rules/Crypto"
     interval: 86400
-  Douyin:
+  Discord:
     type: http
     behavior: classical
-    url: https://fastly.jsdelivr.net/gh/dler-io/Rules@main/Clash/Provider/Douyin.yaml
-    path: "./Rules/Douyin"
+    url: https://fastly.jsdelivr.net/gh/dler-io/Rules@main/Clash/Provider/Discord.yaml
+    path: "./Rules/Discord"
     interval: 86400
   Steam:
     type: http

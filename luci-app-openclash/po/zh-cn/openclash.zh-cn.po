@@ -170,6 +170,9 @@ msgstr "实验性：绕过中国大陆 IPv6"
 msgid "Bypass The China Network Flows, Improve Performance"
 msgstr "启用后中国大陆流量将不再经过内核，提升系统性能"
 
+msgid "Bypass The China Network Flows, Improve Performance, Depend on Dnsmasq"
+msgstr "启用后中国大陆流量将不再经过内核，提升系统性能，此功能依赖于 Dnsmasq"
+
 msgid "Log Level"
 msgstr "日志等级"
 
@@ -729,6 +732,9 @@ msgstr "混淆参数（可选）"
 
 msgid "UDP Enable"
 msgstr "UDP 支持"
+
+msgid "XUDP Enable"
+msgstr "XUDP 支持"
 
 msgid "obfs-mode"
 msgstr "传输协议"
@@ -1450,6 +1456,9 @@ msgstr "大陆IPv6段更新URL"
 msgid "Custom Chnroute Lists URL"
 msgstr "大陆IP段更新URL"
 
+msgid "Custom CN Doamin Lists URL"
+msgstr "大陆域名列表文件更新URL"
+
 msgid "Custom GEOIP Data URL, Click Button Below To Refresh After Edit"
 msgstr "自定义 GEOIP 数据库的更新来源，编辑后点击下方按钮生效"
 
@@ -1461,6 +1470,9 @@ msgstr "自定义大陆 IP 段的更新来源，编辑后点击下方按钮生�
 
 msgid "Custom Chnroute6 Lists URL, Click Button Below To Refresh After Edit"
 msgstr "自定义大陆 IPv6 段的更新来源，编辑后点击下方按钮生效"
+
+msgid "Custom CN Doamin Dnsmasq Conf URL, Click Button Below To Refresh After Edit"
+msgstr "自定义大陆域名列表配置文件（Dnsmasq Conf）的更新来源，编辑后点击下方按钮生效"
 
 msgid "(Default)"
 msgstr "(默认)"
@@ -1720,11 +1732,17 @@ msgstr "开始下载大陆 IP 白名单..."
 msgid "Start Downloading The Chnroute6 Cidr List..."
 msgstr "开始下载大陆 IPv6 白名单..."
 
+msgid "Start Downloading The CN Domains List..."
+msgstr "开始下载大陆域名白名单..."
+
 msgid "Chnroute Cidr List Download Success, Check Updated..."
 msgstr "大陆 IP 白名单下载成功，检查版本是否更新..."
 
 msgid "Chnroute6 Cidr List Download Success, Check Updated..."
 msgstr "大陆 IPv6 白名单下载成功，检查版本是否更新..."
+
+msgid "CN Domains List Download Success, Check Updated..."
+msgstr "大陆域名白名单下载成功，检查版本是否更新..."
 
 msgid "Chnroute Cidr List Has Been Updated, Starting To Replace The Old Version..."
 msgstr "大陆 IP 白名单有更新，开始替换旧版本..."
@@ -1732,11 +1750,17 @@ msgstr "大陆 IP 白名单有更新，开始替换旧版本..."
 msgid "Chnroute6 Cidr List Has Been Updated, Starting To Replace The Old Version..."
 msgstr "大陆 IPv6 白名单有更新，开始替换旧版本..."
 
+msgid "CN Domains List Has Been Updated, Starting To Replace The Old Version..."
+msgstr "大陆域名白名单有更新，开始替换旧版本..."
+
 msgid "Chnroute Cidr List Update Successful!"
 msgstr "大陆 IP 白名单更新成功！"
 
 msgid "Chnroute6 Cidr List Update Successful!"
 msgstr "大陆 IPv6 白名单更新成功！"
+
+msgid "CN Domains List Update Successful!"
+msgstr "大陆域名白名单更新成功！"
 
 msgid "Updated Chnroute Cidr List No Change, Do Nothing..."
 msgstr "大陆 IP 白名单没有更新，停止继续操作..."
@@ -1744,11 +1768,17 @@ msgstr "大陆 IP 白名单没有更新，停止继续操作..."
 msgid "Updated Chnroute6 Cidr List No Change, Do Nothing..."
 msgstr "大陆 IPv6 白名单没有更新，停止继续操作..."
 
+msgid "Updated CN Domains List No Change, Do Nothing..."
+msgstr "大陆域名白名单没有更新，停止继续操作..."
+
 msgid "Chnroute Cidr List Update Error, Please Try Again Later..."
 msgstr "大陆 IP 白名单下载失败，请检查网络或稍后再试..."
 
 msgid "Chnroute6 Cidr List Update Error, Please Try Again Later..."
 msgstr "大陆 IPv6 白名单下载失败，请检查网络或稍后再试..."
+
+msgid "CN Domains List Update Error, Please Try Again Later..."
+msgstr "大陆域名白名单下载失败，请检查网络或稍后再试..."
 
 msgid "Start Downloading GeoSite Database..."
 msgstr "开始下载 GeoSite 数据库..."
@@ -1898,76 +1928,79 @@ msgid "Detected That The nameserver DNS Option Has No Server Set, Starting To Co
 msgstr "检测到DNS选项下的 Nameserver 未设置服务器，开始补全..."
 
 msgid "Error: Failed To Download Proxy-providers, Please Check The Log Page For Detailed error information!"
-msgstr "错误: 代理集文件下载失败，请到日志页面查看详细错误信息！"
+msgstr "错误：代理集文件下载失败，请到日志页面查看详细错误信息！"
 
 msgid "Error: Failed To Download Rule-providers, Please Check The Log Page For Detailed error information!"
-msgstr "错误: 规则集文件下载失败，请到日志页面查看详细错误信息！"
+msgstr "错误：规则集文件下载失败，请到日志页面查看详细错误信息！"
 
 msgid "Error: Nameserver Option Must Be Setted, Stop Customing DNS Servers"
-msgstr "错误: 配置文件DNS选项下的 Nameserver 必须设置服务器，已停止设置自定义DNS服务器！"
+msgstr "错误：配置文件DNS选项下的 Nameserver 必须设置服务器，已停止设置自定义DNS服务器！"
 
 msgid "Config File Does Not Exist, You Have Set Subscription Information, Ready To Download..."
 msgstr "配置文件不存在，您已设置订阅信息，准备开始下载..."
 
 msgid "Error: Config Not Found"
-msgstr "错误: 缺少配置文件，请上传或更新配置文件！"
+msgstr "错误：缺少配置文件，请上传或更新配置文件！"
 
 msgid "Error: Config File Format Validation Failed..."
 msgstr "错误：配置文件格式校验失败..."
 
 msgid "Tip: Detected The Exclusive Function of The TUN Core, Use TUN Core to Start..."
-msgstr "提示: 检测到配置了 TUN 内核专属功能，调用 TUN 内核启动..."
+msgstr "提示：检测到配置了 TUN 内核专属功能，调用 TUN 内核启动..."
 
 msgid "Tip: Detected The Exclusive Function of The Meta Core, Use Meta Core to Start..."
-msgstr "提示: 检测到配置了 Meta 内核专属功能，调用 Meta 内核启动..."
+msgstr "提示：检测到配置了 Meta 内核专属功能，调用 Meta 内核启动..."
 
 msgid "Tip: No Special Configuration Detected, Use Dev Core to Start..."
-msgstr "提示: 未检测到特殊配置，调用 Dev 内核启动..."
+msgstr "提示：未检测到特殊配置，调用 Dev 内核启动..."
 
 msgid "Tip: Detected that the Dev Core is not Installed, Use TUN Core to Start..."
-msgstr "提示: 检测到 Dev 内核未安装，调用 TUN 内核启动..."
+msgstr "提示：检测到 Dev 内核未安装，调用 TUN 内核启动..."
 
 msgid "Tip: Detected that the Dev Core is not Installed, Use Meta Core to Start..."
-msgstr "提示: 检测到 Dev 内核未安装，调用 Meta 内核启动..."
+msgstr "提示：检测到 Dev 内核未安装，调用 Meta 内核启动..."
 
 msgid "Tip: Detected that the GEOIP Database is not Installed, Ready to Download..."
-msgstr "提示: 检测到 GEOIP 数据库文件不存在，准备开始下载..."
+msgstr "提示：检测到 GEOIP 数据库文件不存在，准备开始下载..."
 
 msgid "Tip: Detected that the GEOSITE Database is not Installed, Ready to Download..."
-msgstr "提示: 检测到 GEOSITE 数据库文件不存在，准备开始下载..."
+msgstr "提示：检测到 GEOSITE 数据库文件不存在，准备开始下载..."
 
 msgid "Tip: Detected that the GEOIP Dat is not Installed, Ready to Download..."
-msgstr "提示: 检测到 GEOIP Dat 数据库文件不存在，准备开始下载..."
+msgstr "提示：检测到 GEOIP Dat 数据库文件不存在，准备开始下载..."
 
 msgid "Tip: Detected that the Core is not Installed, Ready to Download..."
-msgstr "提示: 检测到内核文件不存在，准备开始下载..."
+msgstr "提示：检测到内核文件不存在，准备开始下载..."
 
-msgid "Tip: Detected that the Chnroute Cidr List is not Installed, Ready to Download..."
-msgstr "提示: 检测到大陆白名单列表不存在，准备开始下载..."
+msgid "Tip: Detected that the Chnroute Cidr or CN Domains List is not Installed, Ready to Download..."
+msgstr "提示：检测到大陆白名单列表不存在，准备开始下载..."
+
+msgid "Tip: Detected that the Chnroute Cidr List Format is wrong, Ready to Reformat..."
+msgstr "提示：检测到大陆白名单列表格式错误，准备重新格式化..."
 
 msgid "Error: Could Not Load The Capsh Library, Please Verify The Capsh Shell Library Work Well..."
 msgstr "错误：Capsh 异常，请尝试重新安装依赖【libcap】和相应的Capsh库，终止启动..."
 
 msgid "Tip: You Could Download And Re-Install The libcap & libcap-bin Library From The Address Give"
-msgstr "提示: 你可以尝试从给出的地址中查找、下载并重新安装架构对应的 libcap 和 libcap-bin 依赖"
+msgstr "提示：你可以尝试从给出的地址中查找、下载并重新安装架构对应的 libcap 和 libcap-bin 依赖"
 
 msgid "Error: Get DNS 'listen' Option Error, OpenClash Can Not Start With Raw Config File"
-msgstr "错误: 无法获取 DNS 部分的监听端口设置, OpenClash 使用原始配置文件启动失败"
+msgstr "错误：无法获取 DNS 部分的监听端口设置, OpenClash 使用原始配置文件启动失败"
 
 msgid "Error: Get DNS 'enhanced-mode' Option Error, OpenClash Can Not Start With Raw Config File"
-msgstr "错误: 无法获取 DNS 部分的运行模式设置, OpenClash 使用原始配置文件启动失败"
+msgstr "错误：无法获取 DNS 部分的运行模式设置, OpenClash 使用原始配置文件启动失败"
 
 msgid "Error: Get General 'redir-port' Option Error, OpenClash Can Not Start With Raw Config File"
-msgstr "错误: 无法获取 General 部分的转发端口设置, OpenClash 使用原始配置文件启动失败"
+msgstr "错误：无法获取 General 部分的转发端口设置, OpenClash 使用原始配置文件启动失败"
 
 msgid "Error: OpenClash Can Not Start, Please Check The Error Info And Try Again!"
-msgstr "错误: OpenClash 启动失败，请到日志页面查看详细错误信息！"
+msgstr "错误：OpenClash 启动失败，请到日志页面查看详细错误信息！"
 
 msgid "Error: OpenClash Can Not Start, Try Use Raw Config Restart Again..."
-msgstr "错误: OpenClash 启动失败，尝试使用原始配置文件启动..."
+msgstr "错误：OpenClash 启动失败，尝试使用原始配置文件启动..."
 
 msgid "Error: OpenClash Can Not Start, Try Use Backup Rules Start Again..."
-msgstr "错误: OpenClash 启动失败，尝试还原第三方规则并重新启动 Clash 主程序..."
+msgstr "错误：OpenClash 启动失败，尝试还原第三方规则并重新启动 Clash 主程序..."
 
 msgid "Found 53 Port Hijacked, Clean Up Firewall Rules..."
 msgstr "发现 53 端口被劫持，清理防火墙规则..."
@@ -2095,14 +2128,17 @@ msgstr "2、点击《管理第三方游戏规则》或者《管理第三方规�
 msgid "3. On this page, set the corresponding configuration file and policy group of the rule you have downloaded, and save the settings"
 msgstr "3、在此页面设置您已下载的规则的对应配置文件、策略组并保存设置"
 
-msgid "4. Install the TUN core"
-msgstr "4、安装 TUN 内核"
+msgid "4. Install the TUN or Meta core"
+msgstr "4、安装 TUN 或者 Meta 内核"
 
 msgid "When setting this page, if the groups is empty, please go to the <server and group management> page to add"
 msgstr "本页设置时如策略组为空，请先到《服务器与策略组管理》页面进行添加"
 
 msgid "Introduction to rule set usage: https://lancellc.gitbook.io/clash/clash-config-file/rule-provider"
 msgstr "规则集使用介绍：https://lancellc.gitbook.io/clash/clash-config-file/rule-provider"
+
+msgid "Introduction to proxy usage: https://lancellc.gitbook.io/clash/clash-config-file/proxies"
+msgstr "代理使用介绍：https://lancellc.gitbook.io/clash/clash-config-file/rule-provider"
 
 msgid "Subconverter external configuration (subscription conversion template) Description: https://github.com/tindy2013/subconverter#external-configuration-file"
 msgstr "subconverter 外部配置(订阅转换模板)说明：https://github.com/tindy2013/subconverter#external-configuration-file"
@@ -2432,7 +2468,7 @@ msgid "Are you sure want to switch the running mode?"
 msgstr "确认要切换运行模式吗?"
 
 msgid "Tip: Because of the file"
-msgstr "提示: 由于文件"
+msgstr "提示：由于文件"
 
 msgid "modificated, Pause quick start..."
 msgstr "被修改，暂停快速启动..."
@@ -2572,6 +2608,9 @@ msgstr "提示：开始自动选择（检测）Discovery Plus 解锁节点..."
 msgid "Tip: Start Auto Select Proxy For Bilibili Unlock..."
 msgstr "提示：开始自动选择（检测）Bilibili 解锁节点..."
 
+msgid "Tip: Start Auto Select Proxy For Google Not CN Unlock..."
+msgstr "提示：开始自动选择（检测）Google 非送中节点..."
+
 msgid "Netflix Group:"
 msgstr "Netflix 策略组："
 
@@ -2608,8 +2647,11 @@ msgstr "Discovery Plus 策略组："
 msgid "Bilibili Group:"
 msgstr "Bilibili 策略组："
 
-msgid "full support."
-msgstr "完整解锁。"
+msgid "Google Group:"
+msgstr "Google 策略组："
+
+msgid "full support"
+msgstr "完整解锁"
 
 msgid "full support, area:"
 msgstr "完整解锁，区域："
@@ -2620,8 +2662,8 @@ msgstr "仅支持自制剧！"
 msgid "unlock test faild!"
 msgstr "解锁检测失败！"
 
-msgid "the type of group is not select, auto select could not work!"
-msgstr "当前策略组类型非Select，无法进行自动选择！"
+msgid ", the type of group is not select, auto select could not work!"
+msgstr "，当前策略组类型非Select，无法进行自动选择！"
 
 msgid "Start auto select unlock proxy..."
 msgstr "开始进行解锁节点自动选择..."
@@ -2674,20 +2716,26 @@ msgstr "解锁节点自动选择失败，未找到区域匹配的节点，回退
 msgid "unlock node auto selected successfully, no node match the old region, rolled back to other full support node"
 msgstr "解锁节点自动选择成功，未找到与先前解锁区域匹配的节点，回退到其他区域且符合条件的解锁节点"
 
-msgid "full support but not match the regex!"
-msgstr "完整解锁但区域不匹配！"
+msgid ", but not match the regex!"
+msgstr "，但区域与设置不匹配！"
 
 msgid "full support but not match the old region!"
 msgstr "完整解锁但与先前解锁区域不匹配！"
 
-msgid "but not match the regex! the type of group is not select, auto select could not work!"
-msgstr "完整解锁但区域不匹配！当前策略组类型非 Select，无法进行自动选择！"
+msgid ", but not match the old region:"
+msgstr "，但不匹配先前解锁区域："
+
+msgid "the type of group is not select, auto select could not work!"
+msgstr "当前策略组类型非 Select，无法进行自动选择！"
+
+msgid ", but not match the regex! the type of group is not select, auto select could not work!"
+msgstr "完整解锁但区域与设置不匹配！当前策略组类型非 Select，无法进行自动选择！"
 
 msgid "but not match the old region! the type of group is not select, auto select could not work!"
-msgstr "完整解锁但与先前解锁区域不匹配！当前策略组类型非 Select，无法进行自动选择！"
+msgstr "但与先前解锁区域不匹配！当前策略组类型非 Select，无法进行自动选择！"
 
-msgid "full support but not match the regex! start auto select unlock proxy..."
-msgstr "完整解锁但区域不匹配！开始进行解锁节点自动选择..."
+msgid ", but not match the regex! start auto select unlock proxy..."
+msgstr "，但区域与设置不匹配！开始进行解锁节点自动选择..."
 
 msgid "unlock node test finished, rolled back to the full support node"
 msgstr "解锁检测完成，回退到完整解锁的节点"
@@ -3123,3 +3171,75 @@ msgstr "低延迟优先"
 
 msgid "Random"
 msgstr "随机选择"
+
+msgid "Tip: You have seted the authentication of SOCKS5/HTTP(S) proxy with"
+msgstr "提示：您为 SOCKS5/HTTP(S) 代理设置的账户密码为"
+
+msgid "Google Not CN"
+msgstr "Google 非送中"
+
+msgid "In Fake-ip Mode, Even If This Option is Turned Off, Domain Type Connections Still Pass Through The Core For The Availability"
+msgstr "在 Fake-IP 模式时，即使关闭此选项，域名类型的连接仍将通过核心以保证可用性"
+
+msgid "Warning: TUN Interface Start Failed, Please Check The Dependence or Try to Restart Again!"
+msgstr "警告：TUN 接口启动失败，请检查依赖情况或稍后重试！"
+
+msgid "Warning: TUN Interface Start Failed, Try to Restart Again..."
+msgstr "警告：TUN 接口启动失败，尝试重启内核..."
+
+msgid "Forced Sniff Pure IP Connections"
+msgstr "强制探测（嗅探）所有纯 IP 的连接"
+
+msgid "Forced Sniff Pure IP"
+msgstr "探测（嗅探）纯 IP 连接"
+
+msgid "Download Failed:"
+msgstr "下载失败："
+
+msgid "Tip: Waiting for TUN Interface Start..."
+msgstr "提示：正在等待 TUN 接口启动..."
+
+msgid "Tip: You Can Try to Restart With Meta Core"
+msgstr "提示：您可以尝试使用 Meta 内核启动"
+
+msgid "Warning: Dnsmasq not Support nftset, Use ipset..."
+msgstr "警告：Dnsmasq 不支持 nftset, 使用 ipset 代替..."
+
+msgid "Tip: Firewall4 was Detected, Use NFTABLE Rules..."
+msgstr "提示：检测到 Firewall4，使用 NFTABLE 规则..."
+
+msgid "Specify CN DNS Server"
+msgstr "大陆域名 DNS 服务器"
+
+msgid "Specify DNS Server For CN Domain Lists, Only One IP Server Address Support"
+msgstr "指定大陆域名的 DNS 服务器，只支持填写一个IP地址"
+
+msgid "Tip: Dnsmasq Work is Normal, Restore The Firewall DNS Hijacking Rules..."
+msgstr "提示：检测到 Dnsmasq 正常工作，还原防火墙 DNS 劫持规则..."
+
+msgid "Tip: Bypass the China IP May Cause the Dnsmasq Load For a Long Time After Restart in FAKE-IP Mode, Hijack the DNS to Core Untill the Dnsmasq Works Well..."
+msgstr "提示：在 FAKE-IP 模式下绕过中国 IP 可能会导致 Dnsmasq 加载时间过长，暂时劫持 DNS 至内核直到 Dnsmasq 正常工作..."
+
+msgid "Seconds..."
+msgstr "秒后开始启动..."
+
+msgid "1. Before modifying the configuration file, please click the button below to read the configuration file"
+msgstr "1. 修改配置文件前，请先点击下方按钮读取配置文件"
+
+msgid "2. Proxy-providers address can be directly filled in the subscription link"
+msgstr "2. 代理集地址可以直接填写订阅链接"
+
+msgid "Custom Tag"
+msgstr "自定义标记"
+
+msgid "Mark as Custom Node to Prevent Retention config from being Deleted When Enabled"
+msgstr "标记为自定义节点，防止保留配置启用时被删除"
+
+msgid "Error: Edit Speedtest URL Failed,"
+msgstr "错误：修改测速地址失败，"
+
+msgid "Url-Test Address Modify"
+msgstr "测速（连通性）地址修改"
+
+msgid "Modify The Url-Test Address In The Config"
+msgstr "修改配置文件中的测速（连通性）地址"
